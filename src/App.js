@@ -1,25 +1,30 @@
 import logo from './logo.svg';
 import './App.css';
+import ProductList from './components/ProductList';
+import Cart from './components/Cart';
+import React, { useState } from 'react';
 
 function App() {
+  const [cart, setCart] = useState([]);
+
+  const products = [
+    { id: 1, name: 'liquid detox',  price: 5.99, description: 'pour la reparation des cheveux', image: 'data:image/jpeg;base64,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' },
+    { id: 2, name: 'Grenade, Firming Face Oil', price: 9.99, description: 'pour le visage', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSx1_zo9hG_6MZvXrjTEyXKHbBZiQp_m39fHA&s' },
+    { id: 3, name: 'vitamine C',  price: 7.49, description: 'pour le visage', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRrjLCODR8HvKsLteHoLGgJNjmiHZZ88-udiw&s' },
+   
+  ];
+  const addToCart = (product) => {
+    setCart([...cart, product]);
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1> E-commerce parapharmacie en ligne </h1>
+      <ProductList products={products} addToCart={addToCart} />
+      <Cart cart={cart} />
     </div>
   );
+
 }
 
 export default App;
